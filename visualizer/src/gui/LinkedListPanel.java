@@ -24,23 +24,39 @@ public class LinkedListPanel extends JPanel {
         Node current = linkedList.getHead();
         int x = 20;
         int y = 50;
-        int boxWidth = 100;
+        int boxWidth = 150;
         int boxHeight = 40;
-        int gap = 20;
+        int gap = 50;
 
         while (current != null) {
             // Draw node box
-            g.setColor(Color.LIGHT_GRAY);
+            //setting color before drawing
+            g.setColor(Color.black);
             g.fillRect(x, y, boxWidth, boxHeight);
-            g.setColor(Color.BLACK);
+            //setting color before drawing
+            g.setColor(Color.white);
+            g.drawLine(x+10+boxWidth/3,y,x+10+boxWidth/3,y+boxHeight);
+            g.setColor(Color.white);
             g.drawRect(x, y, boxWidth, boxHeight);
 
             // Draw node value
-            g.drawString("Value: " + current.data, x + 10, y + 20);
+            g.setColor(Color.white);
+            g.setFont(new Font("Arial", Font.PLAIN, 16));
+            g.drawString(""+ current.data, x + 10, y + 25);
 
             // Draw next node address
             String nextAddress = (current.next != null) ? Integer.toHexString(current.next.hashCode()) : "null";
-            g.drawString("Next: " + nextAddress, x + 10, y + 35);
+            g.setColor(Color.white);
+            g.setFont(new Font("Arial", Font.PLAIN, 16));
+            g.drawString( nextAddress, x + 70, y + 25);
+
+            // Draw current node address
+            String currentAddress =  Integer.toHexString(current.hashCode());
+            g.setColor(Color.white);
+            g.setFont(new Font("Arial", Font.PLAIN, 16));
+            g.drawString( currentAddress, x +5 , y - 10);
+
+
 
             // Draw arrow to the next node
             if (current.next != null) {

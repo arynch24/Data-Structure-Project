@@ -1,7 +1,6 @@
 package gui;
 
 import main.linkedlist.LinkedList;
-import main.linkedlist.Node;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,9 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LinkedListGui extends JFrame {
-    private LinkedList linkedList;
+    private final LinkedList linkedList;
     private JTextField inputField;
     private JTextField positionField;
+    private LinkedListPanel linkedListPanel;
 
     public LinkedListGui() {
         linkedList = new LinkedList();
@@ -24,8 +24,26 @@ public class LinkedListGui extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        // Create and configure the panel for linked list visualization
+        linkedListPanel = new LinkedListPanel(linkedList);
+        linkedListPanel.setBackground(Color.BLACK); // Set background color of the panel
+        linkedListPanel.setPreferredSize(new Dimension(800, 400));
+
+        // Create and configure the display area
+        JTextArea displayArea = new JTextArea();
+        displayArea.setEditable(false);
+        displayArea.setBackground(Color.BLACK); // Set background color
+        displayArea.setForeground(Color.WHITE); // Set text color to white for visibility
+
+        // Create and configure the input field
         inputField = new JTextField(10);
+        inputField.setBackground(Color.DARK_GRAY); // Set background color
+        inputField.setForeground(Color.WHITE); // Set text color to white for visibility
+
+        // Create and configure the position field
         positionField = new JTextField(5);
+        positionField.setBackground(Color.DARK_GRAY); // Set background color
+        positionField.setForeground(Color.WHITE); // Set text color to white for visibility
 
         JButton insertAtHeadButton = new JButton("Insert at Head");
         insertAtHeadButton.addActionListener(new ActionListener() {
@@ -33,7 +51,7 @@ public class LinkedListGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int value = Integer.parseInt(inputField.getText());
                 linkedList.insertAtHead(value);
-                repaint();
+                linkedListPanel.repaint(); // Refresh the linked list panel
             }
         });
 
@@ -43,7 +61,7 @@ public class LinkedListGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int value = Integer.parseInt(inputField.getText());
                 linkedList.insertAtTail(value);
-                repaint();
+                linkedListPanel.repaint(); // Refresh the linked list panel
             }
         });
 
@@ -54,7 +72,7 @@ public class LinkedListGui extends JFrame {
                 int value = Integer.parseInt(inputField.getText());
                 int position = Integer.parseInt(positionField.getText());
                 linkedList.insertAtPosition(position, value);
-                repaint();
+                linkedListPanel.repaint(); // Refresh the linked list panel
             }
         });
 
@@ -64,7 +82,7 @@ public class LinkedListGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int value = Integer.parseInt(inputField.getText());
                 linkedList.delete(value);
-                repaint();
+                linkedListPanel.repaint(); // Refresh the linked list panel
             }
         });
 
@@ -74,7 +92,7 @@ public class LinkedListGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int position = Integer.parseInt(positionField.getText());
                 linkedList.deleteAtPosition(position);
-                repaint();
+                linkedListPanel.repaint(); // Refresh the linked list panel
             }
         });
 
@@ -83,11 +101,12 @@ public class LinkedListGui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 linkedList.reverse();
-                repaint();
+                linkedListPanel.repaint(); // Refresh the linked list panel
             }
         });
 
         JPanel controlPanel = new JPanel();
+        controlPanel.setBackground(Color.BLACK); // Set background color
         controlPanel.add(new JLabel("Value:"));
         controlPanel.add(inputField);
         controlPanel.add(new JLabel("Position:"));
@@ -98,9 +117,10 @@ public class LinkedListGui extends JFrame {
         controlPanel.add(deleteButton);
         controlPanel.add(deleteAtPositionButton);
         controlPanel.add(reverseButton);
+        controlPanel.setForeground(Color.WHITE); // Set text color to white for visibility
 
+        add(linkedListPanel, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.SOUTH);
-        add(new LinkedListPanel(linkedList), BorderLayout.CENTER);
     }
 
     public static void main(String[] args) {
