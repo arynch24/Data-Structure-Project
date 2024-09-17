@@ -6,9 +6,16 @@ import main.linkedlist.Node;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A JPanel subclass that visualizes a linked list.
+ * This panel draws the linked list nodes and arrows indicating the connections between nodes.
+ */
 public class LinkedListPanel extends JPanel {
     private LinkedList linkedList;
 
+    /**
+     * Constructs a LinkedListPanel with the specified linked list.
+     */
     public LinkedListPanel(LinkedList linkedList) {
         this.linkedList = linkedList;
         setPreferredSize(new Dimension(800, 400));
@@ -20,16 +27,23 @@ public class LinkedListPanel extends JPanel {
         drawLinkedList(g);
     }
 
+    /**
+     * Draws the linked list on the panel.
+     * Nodes are represented as boxes with their values, current and next addresses.
+     * Arrows are drawn to indicate the links between nodes.
+     * The drawing direction alternates between left-to-right and right-to-left as needed.
+     * g The Graphics object used for drawing.
+     */
     private void drawLinkedList(Graphics g) {
         Node current = linkedList.getHead();
-        int x = 20;
-        int y = 50;
-        int boxWidth = 150;
-        int boxHeight = 40;
-        int gap = 50;
+        int x = 20; // Initial x position for drawing nodes
+        int y = 50; // Initial y position for drawing nodes
+        int boxWidth = 150; // Width of each node box
+        int boxHeight = 40; // Height of each node box
+        int gap = 50; // Gap between nodes
 
         int panelWidth = getWidth(); // Get the current width of the panel
-        boolean leftToRight = true; // Flag to switch direction
+        boolean leftToRight = true; // Flag to switch drawing direction
         int previousX = x, previousY = y; // Store previous position for green arrow
 
         while (current != null) {
@@ -68,7 +82,7 @@ public class LinkedListPanel extends JPanel {
                 }
             }
 
-            // If switching rows,draw the arrow
+            // Draw arrow when switching rows
             if (leftToRight && x + boxWidth + gap > panelWidth) {
                 g.drawLine(x + boxWidth, y + boxHeight / 2, x + boxWidth + gap / 2, y + boxHeight + gap / 2);
                 g.drawLine(x + boxWidth + gap / 2, y + boxHeight + gap / 2, 20, y + boxHeight + gap / 2);
@@ -83,6 +97,7 @@ public class LinkedListPanel extends JPanel {
             // Move to the next node
             current = current.next;
 
+            // Update position for the next node
             if (leftToRight) {
                 x += boxWidth + gap;
                 if (x + boxWidth > panelWidth) {
